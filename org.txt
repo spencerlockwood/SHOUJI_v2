@@ -1,0 +1,21 @@
+shouji-reimplementation/
+├── README.md
+├── requirements.txt
+├── data/
+│   ├── download_data.sh
+│   └── README.md
+├── shouji/
+│   ├── __init__.py
+│   ├── filter.py
+│   ├── neighborhood_map.py
+│   └── utils.py
+├── baseline/
+│   ├── __init__.py
+│   └── edlib_baseline.py
+├── tests/
+│   ├── test_shouji.py
+│   └── validate_accuracy.py
+└── analysis/
+    ├── run_experiments.py
+    ├── generate_plots.py
+    └── compare_results.py
