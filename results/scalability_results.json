@@ -1,0 +1,79 @@
+{
+  "E0": {
+    "edit_threshold": 0,
+    "false_accept_rate": 0,
+    "false_reject_rate": 0.0,
+    "similar_pairs": 2000,
+    "dissimilar_pairs": 0
+  },
+  "E1": {
+    "edit_threshold": 1,
+    "false_accept_rate": 30.974264705882355,
+    "false_reject_rate": 0.0,
+    "similar_pairs": 912,
+    "dissimilar_pairs": 1088
+  },
+  "E2": {
+    "edit_threshold": 2,
+    "false_accept_rate": 29.32187201528176,
+    "false_reject_rate": 1.154249737670514,
+    "similar_pairs": 953,
+    "dissimilar_pairs": 1047
+  },
+  "E3": {
+    "edit_threshold": 3,
+    "false_accept_rate": 40.10743061772605,
+    "false_reject_rate": 0.4530011325028313,
+    "similar_pairs": 883,
+    "dissimilar_pairs": 1117
+  },
+  "E4": {
+    "edit_threshold": 4,
+    "false_accept_rate": 49.01960784313725,
+    "false_reject_rate": 0.4305705059203444,
+    "similar_pairs": 929,
+    "dissimilar_pairs": 1071
+  },
+  "E5": {
+    "edit_threshold": 5,
+    "false_accept_rate": 59.576515880654476,
+    "false_reject_rate": 0.0,
+    "similar_pairs": 961,
+    "dissimilar_pairs": 1039
+  },
+  "E6": {
+    "edit_threshold": 6,
+    "false_accept_rate": 71.34883720930233,
+    "false_reject_rate": 0.0,
+    "similar_pairs": 925,
+    "dissimilar_pairs": 1075
+  },
+  "E7": {
+    "edit_threshold": 7,
+    "false_accept_rate": 79.62264150943396,
+    "false_reject_rate": 0.0,
+    "similar_pairs": 940,
+    "dissimilar_pairs": 1060
+  },
+  "E8": {
+    "edit_threshold": 8,
+    "false_accept_rate": 85.84643848288621,
+    "false_reject_rate": 0.0,
+    "similar_pairs": 919,
+    "dissimilar_pairs": 1081
+  },
+  "E9": {
+    "edit_threshold": 9,
+    "false_accept_rate": 93.54838709677419,
+    "false_reject_rate": 0.0,
+    "similar_pairs": 977,
+    "dissimilar_pairs": 1023
+  },
+  "E10": {
+    "edit_threshold": 10,
+    "false_accept_rate": 96.7967967967968,
+    "false_reject_rate": 0.0,
+    "similar_pairs": 1001,
+    "dissimilar_pairs": 999
+  }
+}

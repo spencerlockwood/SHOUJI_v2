@@ -19,3 +19,52 @@ shouji-reimplementation/
     ├── run_experiments.py
     ├── generate_plots.py
     └── compare_results.py
+
+
+OUTPUT from run_experiments.py:
+
+After a very long runtime, here is what I get running python analysis/run_experiments.py:
+
+(shouji_env_v2) (base) spencerlockwood@linux203:~/csc427/SHOUJI_v2$ python analysis/run_experiments.py
+======================================================================
+SHOUJI REIMPLEMENTATION - EXPERIMENTS
+======================================================================
+### EXPERIMENT 1: Accuracy Evaluation ###
+======================================================================
+Running: seq_length=100, edit_threshold=2
+======================================================================
+Generating test dataset...
+Processing sequence pairs...
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 30000/30000 [01:17<00:00, 389.04it/s]
+Results for L100_E2:
+  False Accept Rate: 30.1577%
+  False Reject Rate: 0.8896%
+  Avg Shouji Time: 2.5560 ms
+  Avg Edlib Time: 0.0076 ms
+======================================================================
+Running: seq_length=100, edit_threshold=5
+======================================================================
+Generating test dataset...
+Processing sequence pairs...
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 30000/30000 [02:31<00:00, 198.47it/s]
+Results for L100_E5:
+  False Accept Rate: 60.1715%
+  False Reject Rate: 0.0878%
+  Avg Shouji Time: 5.0174 ms
+  Avg Edlib Time: 0.0096 ms
+======================================================================
+Running: seq_length=150, edit_threshold=2
+======================================================================
+Generating test dataset...
+Processing sequence pairs...
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 30000/30000 [01:56<00:00, 258.18it/s]
+Results for L150_E2:
+  False Accept Rate: 29.7639%
+  False Reject Rate: 0.8262%
+  Avg Shouji Time: 3.8545 ms
+  Avg Edlib Time: 0.0096 ms
+======================================================================
+Running: seq_length=150, edit_threshold=5
+======================================================================
+Generating test dataset...
+Killed
