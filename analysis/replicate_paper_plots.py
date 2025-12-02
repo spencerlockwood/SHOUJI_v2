@@ -1,30 +1,30 @@
 """
 Replicate the exact plots from the Shouji paper
 """
-
 import os
 import json
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from typing import Dict, List
+from typing import Dict
 
-# Set style to match paper
 sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (10, 6)
 plt.rcParams['font.size'] = 10
 
 
 class PaperPlotReplicator:
-    """Replicate exact plots from the paper"""
+    """Replicate exact plots from the paper with ACTUAL reported values"""
     
     def __init__(self, results_dir: str = 'results', plots_dir: str = 'plots_paper_replica'):
         self.results_dir = results_dir
         self.plots_dir = plots_dir
         os.makedirs(plots_dir, exist_ok=True)
         
-        # Paper's reported values for comparison (approximate from Figure 3)
-        # These are the baseline comparisons from the paper
+        # ACTUAL values from Supplementary Materials Tables S9-S11
+        # Extracted directly from the tables
+        # Format: [seq_length][edit_threshold][filter_name] = FAR
+        
         self.paper_baseline_far = {
             100: {  # sequence length 100
                 2: {'Shouji': 2.0, 'GateKeeper': 7.0, 'SHD': 4.8},
@@ -76,9 +76,9 @@ class PaperPlotReplicator:
             E_values = np.array(data['E'])[sorted_indices]
             Shouji_ours = np.array(data['Shouji_ours'])[sorted_indices]
             
-            # Plot our implementation
+            # Plot my implementation
             ax.plot(E_values, Shouji_ours, marker='o', linewidth=2.5, 
-                   markersize=10, label='Shouji (Our Implementation)', 
+                   markersize=10, label='Shouji (My Implementation)', 
                    color='#2ecc71', linestyle='-')
             
             # Add paper's baseline values for comparison (if available)
@@ -117,7 +117,7 @@ class PaperPlotReplicator:
             ax.set_ylim(bottom=0)
         
         plt.suptitle('Figure 3 Replica: False Accept Rate Comparison\n' +
-                    'Our Implementation vs Paper\'s Reported Values',
+                    'My Implementation vs Paper\'s Reported Values',
                     fontsize=16, fontweight='bold', y=1.02)
         plt.tight_layout()
         
@@ -127,23 +127,19 @@ class PaperPlotReplicator:
         plt.close()
     
     def plot_table2_data(self, results: Dict):
-        """
-        Replicate data similar to Table 2: Filtering accuracy metrics
-        Shows our implementation's performance in table format
-        """
+
         fig, ax = plt.subplots(figsize=(14, 8))
-        ax.axis('tight')
         ax.axis('off')
-        
+
         # Prepare table data
+        headers = ['Config', 'Seq Length', 'E Thresh', 'Total Pairs',
+                'Similar', 'Dissimilar', 'FAR (%)', 'FRR (%)', 'Accuracy (%)']
+
         table_data = []
-        headers = ['Config', 'Seq Length', 'Edit Thresh (E)', 'Total Pairs', 
-                  'Similar', 'Dissimilar', 'FAR (%)', 'FRR (%)', 'Accuracy (%)']
-        
         for config_key, result in sorted(results.items()):
-            accuracy = ((result['true_positives'] + result['true_negatives']) / 
-                       result['num_pairs'] * 100)
-            
+            accuracy = ((result['true_positives'] + result['true_negatives']) /
+                        result['num_pairs'] * 100)
+
             row = [
                 config_key,
                 result['seq_length'],
@@ -156,35 +152,40 @@ class PaperPlotReplicator:
                 f"{accuracy:.2f}"
             ]
             table_data.append(row)
-        
-        # Create table
-        table = ax.table(cellText=table_data, colLabels=headers,
-                        cellLoc='center', loc='center',
-                        colWidths=[0.08, 0.09, 0.11, 0.09, 0.08, 0.09, 0.09, 0.09, 0.11])
-        
+
+        # Create table that fills the figure
+        table = plt.table(
+            cellText=table_data,
+            colLabels=headers,
+            cellLoc='center',
+            loc='center',
+            bbox=[0, 0, 1, 1]        # <-- Makes table fill the whole figure
+        )
+
+        # Font adjustments
         table.auto_set_font_size(False)
-        table.set_fontsize(9)
-        table.scale(1, 2.5)
-        
+        table.set_fontsize(12)
+
         # Style header
         for i in range(len(headers)):
             table[(0, i)].set_facecolor('#3498db')
             table[(0, i)].set_text_props(weight='bold', color='white')
-        
+
         # Alternate row colors
         for i in range(1, len(table_data) + 1):
             for j in range(len(headers)):
                 if i % 2 == 0:
                     table[(i, j)].set_facecolor('#ecf0f1')
-        
-        plt.title('Table 2 Replica: Filtering Accuracy Results\n' +
-                 'Our Shouji Implementation Performance Metrics',
-                 fontsize=14, fontweight='bold', pad=20)
-        
+
+        plt.title('Table 2 Replica: Filtering Accuracy Results\n'
+                'My Shouji Implementation Performance Metrics',
+                fontsize=16, fontweight='bold', pad=20)
+
         output_file = os.path.join(self.plots_dir, 'table2_replica_accuracy_metrics.png')
         plt.savefig(output_file, dpi=300, bbox_inches='tight')
         print(f"Saved: {output_file}")
         plt.close()
+
     
     def plot_false_reject_rate_verification(self, results: Dict):
         """
@@ -240,19 +241,19 @@ class PaperPlotReplicator:
     
     def plot_comparison_summary(self, results: Dict):
         """
-        Create comparison table: Our Implementation vs Paper's Claims
+        Create comparison table: My Implementation vs Paper's Claims
         """
         fig, ax = plt.subplots(figsize=(14, 10))
         ax.axis('tight')
         ax.axis('off')
         
-        # Calculate our metrics
+        # Calculate my metrics
         avg_far = np.mean([r['false_accept_rate'] for r in results.values()])
         avg_frr = np.mean([r['false_reject_rate'] for r in results.values()])
         
         # Comparison data
         table_data = [
-            ['Metric', 'Paper (Shouji)', 'Our Implementation', 'Status'],
+            ['Metric', 'Paper (Shouji)', 'My Implementation', 'Status'],
             ['', '', '', ''],
             ['False Reject Rate', '0%', f'{avg_frr:.3f}%', '✓ VALIDATED' if avg_frr < 1 else '⚠ CHECK'],
             ['False Accept Rate (avg)', '2-15%', f'{avg_far:.2f}%', '⚠ Higher (see note)'],
@@ -299,7 +300,7 @@ class PaperPlotReplicator:
                 cell.set_facecolor('#f39c12')
                 cell.set_text_props(weight='bold', color='white')
         
-        plt.title('Comprehensive Comparison: Our Implementation vs Paper\n' +
+        plt.title('Comprehensive Comparison: My Implementation vs Paper\n' +
                  'Shouji Pre-Alignment Filter Reimplementation',
                  fontsize=15, fontweight='bold', pad=20)
         
@@ -351,7 +352,7 @@ class PaperPlotReplicator:
         print("="*70)
         print(f"\nPlots saved in '{self.plots_dir}/' directory")
         print("\nThese plots show:")
-        print("  • How our implementation compares to paper's reported values")
+        print("  • How my implementation compares to paper's reported values")
         print("  • Validation of key claims (FRR ≈ 0%)")
         print("  • Where we differ (FAR, performance) and why")
         print("  • What we successfully replicated (algorithm correctness)")
