@@ -24,7 +24,7 @@ cd ..
 python analysis/run_experiments.py
 
 # Generate comparison plots
-python analysis/generate_plots.py
+python analysis/replicate_paper_plots.py
 ```
 
 ## Project Structure
