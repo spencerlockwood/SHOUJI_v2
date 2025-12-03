@@ -269,6 +269,46 @@ To clearly state, main reason I chose to create synthetic data to avoid the comp
 - **False Reject Rate (FRR)**: FN / (FN + TP) × 100%
 - **Overall Accuracy**: (TP + TN) / Total × 100%
 
+To reiterate, false rejects occur when Shouji incorrectly classifies a similar sequence pair as dissimilar. This is the more critical error type, as rejected pairs never undergo alignment and true matches are permanently lost. False accepts occur when Shouji incorrectly classifies a dissimilar sequence pair as similar. This is less critical because false accepts merely pass to alignment, which computes the correct edit distance.
+
+**False Reject Example with E=2:**
+```
+Text:    GGGGTTTTAAAACCCC    (16 characters)
+Pattern: GTGGTTTTAAAACCGC    (2 substitutions at positions 1 and 14)
+
+True alignment: 14 matches on main diagonal
+If Shouji's windows make suboptimal choices across different diagonals:
+
+Shouji bit-vector: 0 1 0 1 1 0 1 0 0 1 0 1 0 0 1 0
+Total matches: 8 (incorrect - should be 14)
+
+Required matches: 16 - 2 = 14
+Actual matches found: 8
+Shouji decision: REJECT (FALSE REJECT)
+```
+
+
+**False Accept Example with E=3:**
+```
+Text:    AAAAAAAA TTTTTTTT    (16 chars: 8 A's, 8 T's)
+Pattern: AAAAXXXX TTTTTTTT    (4 substitutions, exceeds threshold)
+
+True edit distance: 4 (exceeds threshold of 3)
+
+Main diagonal: 12 matches (positions 0-3 and 8-15)
+But coincidental matches on other diagonals inflate the count:
+
+Shouji bit-vector: 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0
+Total matches: 14
+
+Required matches: 16 - 3 = 13
+Actual matches found: 14
+Shouji decision: ACCEPT (FALSE ACCEPT - true distance 4 > 3)
+```
+
+
+With a 4-letter alphabet (A, C, G, T), there is a 25% probability of random base matches. Across multiple diagonals, these accumulate and create false similarity.
+
 I purposely avoided time-based **performance metrics:** as there are far too many variables that go into the computational setup used to claim results.
 
 I strongly believe the most important metrics are the accuracy metrics, here.
