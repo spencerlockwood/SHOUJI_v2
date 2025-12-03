@@ -320,7 +320,7 @@ I purposely avoided time-based **performance metrics:** as there are far too man
 
 ## 6. Results
 
-### 6.1 False Reject Rate: Key Validation ✓
+### 6.1 False Reject Rate: Key Validation
 
 
 ![FRR](plots_paper_replica/key_validation_frr_zero.png)
