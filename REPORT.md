@@ -65,7 +65,7 @@ Shouji is based on the **pigeonhole principle**: if two sequences differ by E ed
 2. **Find Common Subsequences**: Use sliding window to identify matching regions
 3. **Filter Decision**: Accept if total matches ≥ m - E, otherwise reject
 
-**Key Strength:** Unlike previous filters (GateKeeper, SHD), Shouji maximizes matching regions through careful sliding window analysis, whic allows it to achieve high accuracy with zero false rejections.
+**Key Strength:** Unlike previous filters (GateKeeper, SHD), Shouji maximizes matching regions through careful sliding window analysis, which allows it to achieve high accuracy with zero false rejections.
 
 ---
 
@@ -309,9 +309,7 @@ Shouji decision: ACCEPT (FALSE ACCEPT - true distance 4 > 3)
 
 With a 4-letter alphabet (A, C, G, T), there is a 25% probability of random base matches. Across multiple diagonals, these accumulate and create false similarity.
 
-I purposely avoided time-based **performance metrics:** as there are far too many variables that go into the computational setup used to claim results.
-
-I strongly believe the most important metrics are the accuracy metrics, here.
+I purposely avoided time-based **performance metrics:** as there are far too many variables that go into the computational setup used to claim results. I strongly believe the most important metrics are the accuracy metrics, here.
 
 **Key Paper Claims to Validate:**
 1. FRR = 0% (critical property)
